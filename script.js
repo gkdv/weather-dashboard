@@ -14,7 +14,7 @@ function apiCall(cityName) {
         url: queryURL,
         method: "GET"
     }).then(function (response) {
-
+        clearCurrentCity();
         console.log(response)
         // variables needed for current weather
 
@@ -51,4 +51,11 @@ function apiCall(cityName) {
 
     });
 
+}
+function clearCurrentCity (){
+    $('#city').html('')
+    $('#date').html('')
+    $('#temp').html('')
+    $('#humidity').html('')
+    $('#wind-speed').html('')
 }
