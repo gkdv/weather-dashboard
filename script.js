@@ -5,6 +5,7 @@ $('button').on('click', function (event) {
     var cityName = $('#citySearch').val();
     $("form").trigger("reset");
     apiCall(cityName);
+    listCity(cityName);
 })
 function apiCall(cityName) {
 
@@ -58,4 +59,8 @@ function clearCurrentCity (){
     $('#temp').html('')
     $('#humidity').html('')
     $('#wind-speed').html('')
+}
+
+function listCity(cityName){
+    $('.list-group').append(`<a class="list-group-item list-group-item-action" href="#list-item-3">${cityName}</a>`)
 }
