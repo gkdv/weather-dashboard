@@ -6,37 +6,40 @@ var queryURL = 'http://api.openweathermap.org/data/2.5/forecast?id=524901&APPID=
 $.ajax({
     url: queryURL,
     method: "GET"
-  }).then(function(response) {
+}).then(function (response) {
 
-    // Create CODE HERE to Log the queryURL
     console.log(response)
-    var response1 = response.city.name;
-    // var response = response.list[0].main.temp;
-    console.log(response1)
-    function logResults(response){
-        $('#city').append(`<h1>City: ${response1}</h1>`)
+    // variables needed for current weather
+
+    var cityName = response.city.name;
+    var cityDate = response.list[0].dt_txt;
+    var cityTemp = response.list[0].main.temp;
+    var cityHumidity = response.list[0].main.humidity;
+    var cityWind = response.list[0].wind.speed;
+    // var for icon image of current weather
+    // process for getting the UV index for city. Make another ajax call based on lat and long from first ajax call to get respective UV index value.
+    var cityLat = response.city.coord.lat;
+    var cityLon = response.city.coord.lon;
+    var returnDays = 5; //returns 5 day forecast JSON format index of 0.
+    var queryURLuvi = 'http://api.openweathermap.org/data/2.5/uvi/forecast?id=524901&APPID=' + apiKey + '&lat=' + cityLat + '&lon=' + cityLon + '&cnt=' + returnDays
+    $.ajax({
+        url: queryURLuvi,
+        method: 'GET'
+    }).then(function (uvi) {
+        var cityUVI = uvi[0].value;
+        function logUVIvalue(uvi) {
+            $('#uv-index').append(`<h3>UV index: ${cityUVI}</h3>`)
+        }
+        logUVIvalue();
+    })
+
+    function logResults(response) {
+        $('#city').append(`<h1>City: ${cityName}</h1>`)
+        $('#date').append(`<h3>Date: ${cityDate}</h3>`)
+        $('#temp').append(`<h3>Temperature: ${cityTemp} F</h3>`)
+        $('#humidity').append(`<h3>Humidity: ${cityHumidity} RH</h3>`)
+        $('#wind-speed').append(`<h3>Wind Speed: ${cityWind} mph</h3>`)
     }
     logResults();
 
-    // console.log(response.list.main.temp);
-    // $('body').append(response)
-    // $('body').text(JSON.stringify(response))
-    // // Create CODE HERE to log the resulting object
-    // function logResults(response){
-    //   $('.city').append(`<h1>City: ${response.name}</h1>`)
-    //   $('.wind').append(`<h1>Wind Speed: ${response.wind.speed}</h1>`)
-    //   $('.humidity').append(`<h1>Humidity: ${response.main.humidity}</h1>`)
-    //   $('.temp').append(`<h1>Temperature: ${response.main.temp}</h1><h1>Temperature in Fahrenheit: ${tempKelvin(response)}</h1>`)
-    // }
-    // logResults(response);
-    // // Create CODE HERE to transfer content to HTML
-    // // Create CODE HERE to calculate the temperature (converted from Kelvin)
-    // // Hint: To convert from Kelvin to Fahrenheit: F = (K - 273.15) * 1.80 + 32
-    // function tempKelvin (response){
-    // var tempKelvin = ((((Math.floor(response.main.temp))-273.15)*1.8)+32);
-    // tempKelvin = tempKelvin.toFixed([0])
-    //   return tempKelvin
-    // }
-    // // Create CODE HERE to dump the temperature content into HTML
-
-  });
+});
