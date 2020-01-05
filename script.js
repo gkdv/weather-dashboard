@@ -10,8 +10,14 @@ $.ajax({
 
     // Create CODE HERE to Log the queryURL
     console.log(response)
-    var response = response.list[0].main.temp;
-    console.log(response)
+    var response1 = response.city.name;
+    // var response = response.list[0].main.temp;
+    console.log(response1)
+    function logResults(response){
+        $('#city').append(`<h1>City: ${response1}</h1>`)
+    }
+    logResults();
+
     // console.log(response.list.main.temp);
     // $('body').append(response)
     // $('body').text(JSON.stringify(response))
