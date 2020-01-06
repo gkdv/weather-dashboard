@@ -1,3 +1,6 @@
+var moment = moment().format("MM ddd, YYYY HH:mm:ss a");
+var currentDay = moment.substring(0,12);
+console.log(currentDay)
 var apiKey = '25f5253d7be788ad89940c40b9d3c859';
 // on click event for passing in search city input for ajax call.
 $('button').on('click', function (event) {
@@ -23,7 +26,7 @@ function apiCall(cityName) {
         // variables needed for current weather
 
         var cityName = response.name;
-        var cityDate = response.dt_txt;
+        // var cityDate = response.dt_txt;
         var cityTemp = response.main.temp;
         var cityHumidity = response.main.humidity;
         var cityWind = response.wind.speed;
@@ -46,8 +49,8 @@ function apiCall(cityName) {
         })
 
         function logResults(response) {
-            $('#city').append(`<h1>City: ${cityName}</h1>`)
-            $('#date').append(`<h3>Date: ${cityDate}</h3>`)
+            $('#city').append(`<h1>${cityName}</h1>`)
+            $('#date').append(`<h3>${currentDay}</h3>`)
             $('#temp').append(`<h3>Temperature: ${cityTemp} F</h3>`)
             $('#humidity').append(`<h3>Humidity: ${cityHumidity} RH</h3>`)
             $('#wind-speed').append(`<h3>Wind Speed: ${cityWind} mph</h3>`)
