@@ -96,12 +96,14 @@ function forecastWeather(cityName) {
         var temps = [];
         var humidities = [];
         var descriptions = [];
+    
         for (i = 4; i < (response.list).length; i+=8) {
             var date = response.list[i].dt_txt;
             var iconCode = response.list[i].weather[0].icon;
             var description = response.list[i].weather[0].description;
             var temp = response.list[i].main.temp;
             var humidity = response.list[i].main.humidity;
+
             temps.push(temp)
             dates.push(date)
             iconCodes.push(iconCode)
@@ -110,13 +112,20 @@ function forecastWeather(cityName) {
         }
         console.log(dates)    
         console.log(temps)    
+        console.log(iconCodes)    
+
         for (i = 0; i < ($('#forecastCards').children()).length; i++){
             var divIndex = $('#forecastCards').children().eq([i]);
             var datesString = dates[i].toString();
-            console.log(datesString)
             var datesSlice = datesString.slice(8,10);
-            console.log(datesSlice)
-            divIndex.append(`<p><small>${datesSlice}</small></p>`)
+            var image = iconCodes[i];
+            var iconURL = "http://openweathermap.org/img/wn/" + image + "@2x.png";
+
+            divIndex.append(`<div id="icon"><img id="wicon-forecast" src="${iconURL}" alt="Weather icon"></div>`);
+            // $('#wicon-forecast').attr('src', iconURL);
+            
+            divIndex.append(`<p><small>${descriptions[i]}</small></p>`);
+            divIndex.append(`<p><small>${datesSlice}th</small></p>`)
             divIndex.append(`<p><small>${temps[i]} F</small></p>`)
             divIndex.append(`<p><small>${humidities[i]} RH</small></p>`)
             divIndex.append(`<p><small>${descriptions[i]}</small></p>`)
