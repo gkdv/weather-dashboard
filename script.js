@@ -22,11 +22,11 @@ function apiCall(cityName) {
         method: "GET"
     }).then(function (response) {
         clearCurrentCity();
+        clearForecastCity();
         console.log(response)
         // variables needed for current weather
 
         var cityName = response.name;
-        // var cityDate = response.dt_txt;
         var cityTemp = response.main.temp;
         var cityHumidity = response.main.humidity;
         var cityWind = response.wind.speed;
@@ -70,6 +70,16 @@ function clearCurrentCity() {
     $('#temp').html('')
     $('#humidity').html('')
     $('#wind-speed').html('')
+    $('#uv-index').html('')
+    $('#icon-image').html('')
+}
+// function clears forecast city information from forecast div.
+function clearForecastCity() {
+    $('#day1').html('')
+    $('#day2').html('')
+    $('#day3').html('')
+    $('#day4').html('')
+    $('#day5').html('')
 }
 
 // appends new city from search to a list under the search bar.
