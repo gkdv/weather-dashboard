@@ -1,7 +1,7 @@
 var moment = moment().format("MM ddd, YYYY HH:mm:ss a");
-var currentDay = moment.substring(0,12);
-console.log(currentDay)
+var currentDay = moment.substring(0, 12);
 var apiKey = '25f5253d7be788ad89940c40b9d3c859';
+
 // on click event for passing in search city input for ajax call.
 $('button').on('click', function (event) {
     event.preventDefault();
@@ -11,6 +11,7 @@ $('button').on('click', function (event) {
     listCity(cityName);
     forecastWeather(cityName);
 })
+
 
 //function passes in city name from above to run ajax call for all the information needed
 function apiCall(cityName) {
@@ -23,13 +24,14 @@ function apiCall(cityName) {
     }).then(function (response) {
         clearCurrentCity();
         clearForecastCity();
-        console.log(response)
-        // variables needed for current weather
 
+
+        // variables needed for current weather
         var cityName = response.name;
         var cityTemp = response.main.temp;
         var cityHumidity = response.main.humidity;
         var cityWind = response.wind.speed;
+        var cityUVindex = [];
 
         // process for getting the UV index for city. Make another ajax call based on lat and long from first ajax call to get respective UV index value.
         var cityLat = response.coord.lat;
@@ -40,23 +42,28 @@ function apiCall(cityName) {
             url: queryURLuvi,
             method: 'GET'
         }).then(function (uvi) {
-            console.log(uvi);
+
             var cityUVI = uvi[0].value;
             function logUVIvalue(uvi) {
                 $('#uv-index').append(`<h3>UV index: ${cityUVI}</h3>`)
             }
             logUVIvalue();
+            cityUVindex.push(cityUVI);
+            
         })
 
-        function logResults(response) {
+        // all the information collect above is append here.
+        function logResults() {
             $('#city').append(`<h1>${cityName}</h1>`)
             $('#date').append(`<h3>${currentDay}</h3>`)
             $('#temp').append(`<h3>Temperature: ${cityTemp} F</h3>`)
             $('#humidity').append(`<h3>Humidity: ${cityHumidity} RH</h3>`)
             $('#wind-speed').append(`<h3>Wind Speed: ${cityWind} mph</h3>`)
         }
+
         logResults();
         iconImage(response);
+
 
 
     });
@@ -84,7 +91,7 @@ function clearForecastCity() {
 
 // appends new city from search to a list under the search bar.
 function listCity(cityName) {
-    $('.list-group').append(`<a class="list-group-item list-group-item-action" href="#list-item-3">${cityName}</a>`)
+    $('.list-group').append(`<a class="list-group-item list-group-item-action" id="listItem" href="#list-item-3">${cityName}</a>`)
 }
 // function for creating icon image for current weather div.
 function iconImage(response) {
@@ -103,14 +110,14 @@ function forecastWeather(cityName) {
         url: queryURL,
         method: "GET"
     }).then(function (response) {
-        console.log(response)
+
         var dates = [];
         var iconCodes = [];
         var temps = [];
         var humidities = [];
         var descriptions = [];
-    
-        for (i = 4; i < (response.list).length; i+=8) {
+
+        for (i = 4; i < (response.list).length; i += 8) {
             var date = response.list[i].dt_txt;
             var iconCode = response.list[i].weather[0].icon;
             var description = response.list[i].weather[0].description;
@@ -123,20 +130,18 @@ function forecastWeather(cityName) {
             humidities.push(humidity)
             descriptions.push(description)
         }
-        console.log(dates)    
-        console.log(temps)    
-        console.log(iconCodes)    
 
-        for (i = 0; i < ($('#forecastCards').children()).length; i++){
+
+        for (i = 0; i < ($('#forecastCards').children()).length; i++) {
             var divIndex = $('#forecastCards').children().eq([i]);
             var datesString = dates[i].toString();
-            var datesSlice = datesString.slice(8,10);
+            var datesSlice = datesString.slice(8, 10);
             var image = iconCodes[i];
             var iconURL = "http://openweathermap.org/img/wn/" + image + "@2x.png";
 
             divIndex.append(`<div id="icon"><img id="wicon-forecast" src="${iconURL}" alt="Weather icon"></div>`);
             // $('#wicon-forecast').attr('src', iconURL);
-            
+
             divIndex.append(`<p><small>${descriptions[i]}</small></p>`);
             divIndex.append(`<p><small>${datesSlice}th</small></p>`)
             divIndex.append(`<p><small>${temps[i]} F</small></p>`)
@@ -146,3 +151,4 @@ function forecastWeather(cityName) {
         }
     })
 }
+

@@ -4,3 +4,6 @@
 li {
     list-style-type: none;
 }
+.col-md-2{
+    border-block-end-style: hidden;
+}
