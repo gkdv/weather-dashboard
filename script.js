@@ -97,14 +97,14 @@ function listCity(cityName) {
 function iconImage(response) {
     var iconCode = response.weather[0].icon;
     var iconDescription = response.weather[0].description;
-    var iconURL = "http://openweathermap.org/img/wn/" + iconCode + "@2x.png";
+    var iconURL = "https://openweathermap.org/img/wn/" + iconCode + "@2x.png";
     $('#icon-image').append(`<div id="icon"><img id="wicon" src="" alt="Weather icon"></div>`);
     $('#icon-image').append(`<h3>${iconDescription}</h3>`);
     $('#wicon').attr('src', iconURL);
 }
 // function grabbing forecast weather data.
 function forecastWeather(cityName) {
-    var queryURL = 'http://api.openweathermap.org/data/2.5/forecast?id=524901&APPID=' + apiKey + '&q=' + cityName + '&units=imperial'
+    var queryURL = 'https://api.openweathermap.org/data/2.5/forecast?id=524901&APPID=' + apiKey + '&q=' + cityName + '&units=imperial'
 
     $.ajax({
         url: queryURL,
