@@ -16,7 +16,7 @@ $('button').on('click', function (event) {
 //function passes in city name from above to run ajax call for all the information needed
 function apiCall(cityName) {
 
-    var queryURL = 'http://api.openweathermap.org/data/2.5/weather?id=524901&APPID=' + apiKey + '&q=' + cityName + '&units=imperial'
+    var queryURL = 'https://api.openweathermap.org/data/2.5/weather?id=524901&APPID=' + apiKey + '&q=' + cityName + '&units=imperial'
 
     $.ajax({
         url: queryURL,
@@ -37,7 +37,7 @@ function apiCall(cityName) {
         var cityLat = response.coord.lat;
         var cityLon = response.coord.lon;
         var returnDays = 5; //returns 5 day forecast JSON format index of 0.
-        var queryURLuvi = 'http://api.openweathermap.org/data/2.5/uvi/forecast?id=524901&APPID=' + apiKey + '&lat=' + cityLat + '&lon=' + cityLon + '&cnt=' + returnDays
+        var queryURLuvi = 'https://api.openweathermap.org/data/2.5/uvi/forecast?id=524901&APPID=' + apiKey + '&lat=' + cityLat + '&lon=' + cityLon + '&cnt=' + returnDays
         $.ajax({
             url: queryURLuvi,
             method: 'GET'
