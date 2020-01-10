@@ -137,7 +137,7 @@ function forecastWeather(cityName) {
             var datesString = dates[i].toString();
             var datesSlice = datesString.slice(8, 10);
             var image = iconCodes[i];
-            var iconURL = "http://openweathermap.org/img/wn/" + image + "@2x.png";
+            var iconURL = "https://openweathermap.org/img/wn/" + image + "@2x.png";
 
             divIndex.append(`<div id="icon"><img id="wicon-forecast" src="${iconURL}" alt="Weather icon"></div>`);
             // $('#wicon-forecast').attr('src', iconURL);
